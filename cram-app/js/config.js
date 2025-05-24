@@ -8,7 +8,7 @@
 
 const CONFIG = {
   // OpenAI API settings
-  apiKey: "YOUR_API_KEY", // Replace with your API key
+  apiKey: "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", // Replace with your API key
   apiEndpoint: "https://api.openai.com/v1/chat/completions",
   model: "gpt-4.1-mini", // Using GPT-4.1 for better responses
   
