@@ -1,0 +1,306 @@
+/**
+ * Voice Recognition for Cram application
+ * 
+ * This file contains functions for handling speech recognition
+ * to allow users to input topics via voice.
+ * 
+ * Поддерживает горячую клавишу Ctrl+M для активации голосового ввода
+ */
+
+// Speech Recognition setup
+let recognition = null;
+let isRecording = false;
+
+// DOM references - will be initialized when document is loaded
+let voiceBtn;
+let voiceStatus;
+let topicInput;
+let errorContainer;
+let errorMessage;
+
+/**
+ * Initialize the speech recognition functionality
+ */
+function initVoiceRecognition() {
+  // Initialize DOM references
+  voiceBtn = document.getElementById('voice-btn');
+  voiceStatus = document.getElementById('voice-status');
+  topicInput = document.getElementById('topic-input');
+  errorContainer = document.getElementById('error-container');
+  errorMessage = document.getElementById('error-message');
+  
+  // Check if elements were found
+  if (!voiceBtn || !voiceStatus || !topicInput) {
+    console.error("Не удалось найти необходимые элементы для голосового ввода:");
+    console.log("- voiceBtn:", !!voiceBtn);
+    console.log("- voiceStatus:", !!voiceStatus);
+    console.log("- topicInput:", !!topicInput);
+    return;
+  }
+  
+  // Непосредственно привязываем обработчик к кнопке
+  voiceBtn.addEventListener('click', function(e) {
+    console.log('Кнопка микрофона нажата (прямой обработчик)');
+    e.preventDefault();
+    toggleVoiceRecognition();
+  });
+  
+  console.log("Инициализация голосового ввода завершена. Кнопке добавлен обработчик.");
+  
+  // Check if browser supports speech recognition
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    console.warn("Распознавание речи не поддерживается вашим браузером");
+    voiceBtn.style.display = 'none'; // Hide the button if not supported
+    return;
+  }
+  
+  // Create speech recognition instance right away
+  try {
+    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'ru-RU';
+    
+    // Set up handlers
+    setupRecognitionHandlers();
+    
+    console.log("Объект распознавания речи успешно создан");
+  } catch (e) {
+    console.error("Ошибка создания объекта распознавания речи:", e);
+  }
+
+  // Create speech recognition instance
+  recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  
+  // Configure speech recognition
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'ru-RU'; // Set to Russian as default
+  
+  // Handle recognition results
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    topicInput.value = transcript;
+    console.log('Распознан голос: ' + transcript);
+    stopVoiceRecognition();
+  };
+  
+  // Handle end of recording
+  recognition.onend = function() {
+    stopVoiceRecognition();
+  };
+    // Handle errors
+  recognition.onerror = function(event) {
+    console.error("Ошибка распознавания речи: ", event.error);
+    stopVoiceRecognition();
+    
+    // Show error message based on error type
+    let errorMessage = "";
+    if (event.error === 'no-speech') {
+      errorMessage = "Речь не обнаружена. Пожалуйста, попробуйте снова.";
+    } else if (event.error === 'network') {
+      errorMessage = "Проверьте подключение к интернету.";
+    } else {
+      errorMessage = "Ошибка распознавания речи: " + event.error;
+    }
+    
+    // Use application's error display function if it exists, otherwise use alert
+    if (typeof showError === 'function') {
+      showError(errorMessage);
+      if (typeof hideError === 'function') {
+        setTimeout(hideError, 3000); // Hide error after 3 seconds
+      }
+    } else {
+      alert(errorMessage);
+    }
+  };
+
+  // Setup voice button click handler
+  if (voiceBtn) {
+    voiceBtn.addEventListener('click', toggleVoiceRecognition);
+  }
+}
+
+/**
+ * Toggle voice recognition on/off
+ */
+function toggleVoiceRecognition() {
+  console.log("Переключение голосового ввода. Текущий статус:", isRecording ? "активен" : "не активен");
+  
+  // Проверка наличия всех необходимых переменных
+  if (!voiceBtn || !voiceStatus || !topicInput) {
+    console.error("Ошибка: не все необходимые элементы инициализированы:");
+    console.log("- voiceBtn:", voiceBtn);
+    console.log("- voiceStatus:", voiceStatus);
+    console.log("- topicInput:", topicInput);
+    alert("Ошибка инициализации голосового ввода. Пожалуйста, перезагрузите страницу.");
+    return;
+  }
+  
+  if (isRecording) {
+    stopVoiceRecognition();
+  } else {
+    startVoiceRecognition();
+  }
+}
+
+/**
+ * Start voice recognition
+ */
+/**
+ * Set up event handlers for the speech recognition object
+ */
+function setupRecognitionHandlers() {
+  if (!recognition) return;
+  
+  // Handle recognition results
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    topicInput.value = transcript;
+    console.log('Распознан голос: ' + transcript);
+    stopVoiceRecognition();
+  };
+  
+  // Handle end of recording
+  recognition.onend = function() {
+    console.log("Распознавание речи завершено");
+    stopVoiceRecognition();
+  };
+  
+  // Handle errors
+  recognition.onerror = function(event) {
+    console.error("Ошибка распознавания речи: ", event.error);
+    stopVoiceRecognition();
+    
+    // Display error message
+    const errorType = event.error || 'unknown';
+    const errorMsg = `Ошибка распознавания речи: ${errorType}`;
+    console.error(errorMsg);
+    
+    if (errorContainer && errorMessage) {
+      errorMessage.textContent = errorMsg;
+      errorContainer.classList.remove('hidden');
+      errorContainer.style.transform = 'translateY(0)';
+      errorContainer.style.opacity = '1';
+      
+      setTimeout(() => {
+        errorContainer.style.transform = 'translateY(-10px)';
+        errorContainer.style.opacity = '0';
+        setTimeout(() => errorContainer.classList.add('hidden'), 300);
+      }, 3000);
+    } else {
+      alert(errorMsg);
+    }
+  };
+}
+
+function startVoiceRecognition() {
+  // Check if recognition has been initialized properly
+  if (!recognition) {
+    try {
+      // Try to initialize it again in case it was missed
+      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'ru-RU';
+      
+      // Set up event handlers if this is a fresh initialization
+      setupRecognitionHandlers();
+      
+    } catch (e) {
+      console.error("Не удалось инициализировать распознавание речи:", e);
+      alert("Ваш браузер не поддерживает распознавание речи");
+      return;
+    }
+  }
+  
+  try {
+    recognition.start();
+    isRecording = true;
+    
+    // Update UI
+    voiceBtn.classList.remove('bg-blue-500');
+    voiceBtn.classList.add('bg-red-500');
+    voiceBtn.querySelector('svg').classList.add('animate-pulse');
+    voiceStatus.classList.remove('hidden');
+    
+    console.log("Начало записи голоса...");
+  } catch (error) {
+    console.error("Ошибка при запуске распознавания речи:", error);
+    alert("Произошла ошибка при запуске распознавания речи. Пожалуйста, перезагрузите страницу и попробуйте снова.");
+  }
+}
+
+/**
+ * Stop voice recognition
+ */
+function stopVoiceRecognition() {
+  if (!recognition) return;
+  
+  try {
+    if (isRecording) {
+      recognition.stop();
+    }
+  } catch (error) {
+    console.error("Ошибка при остановке распознавания речи:", error);
+  }
+  
+  // Update UI
+  isRecording = false;
+  voiceBtn.classList.remove('bg-red-500');
+  voiceBtn.classList.add('bg-blue-500');
+  voiceBtn.querySelector('svg').classList.remove('animate-pulse');
+  voiceStatus.classList.add('hidden');
+  
+  console.log("Запись голоса остановлена");
+}
+
+// Test function to check if voice recognition is working
+function testVoiceRecognition() {
+  console.log('Тестирование распознавания речи:');
+  console.log('- Кнопка микрофона найдена:', !!voiceBtn);
+  console.log('- Статус голосового ввода найден:', !!voiceStatus);
+  console.log('- Поле ввода темы найдено:', !!topicInput);
+  console.log('- Поддержка SpeechRecognition:', !!(window.SpeechRecognition || window.webkitSpeechRecognition));
+}
+
+// Initialize voice recognition when the document is loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM загружен, инициализация голосового ввода");
+    setTimeout(function() {
+      initVoiceRecognition();
+      testVoiceRecognition();
+    }, 500); // Небольшая задержка для уверенности, что DOM полностью готов
+  });
+} else {
+  // DOM is already ready
+  console.log("DOM уже загружен, инициализация голосового ввода");
+  setTimeout(function() {
+    initVoiceRecognition();
+    testVoiceRecognition();
+  }, 500);
+}
+
+// Принудительно добавим обработчик события для кнопки после загрузки страницы
+window.addEventListener('load', function() {
+  const voiceBtnElement = document.getElementById('voice-btn');
+  if (voiceBtnElement) {
+    console.log('Повторная привязка обработчика к кнопке микрофона...');
+    // Удаляем существующие обработчики
+    voiceBtnElement.removeEventListener('click', toggleVoiceRecognition);
+    // Добавляем обработчик напрямую с динамической функцией
+    voiceBtnElement.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Кнопка микрофона нажата!');
+      if (typeof toggleVoiceRecognition === 'function') {
+        toggleVoiceRecognition();
+      } else {
+        console.error('Функция toggleVoiceRecognition не найдена');
+        alert('Ошибка: функция распознавания речи недоступна');
+      }
+    });
+  } else {
+    console.error('Кнопка микрофона не найдена при загрузке страницы');
+  }
+});

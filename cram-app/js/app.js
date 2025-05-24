@@ -47,6 +47,11 @@ function initApp() {
   initUI();
   initExport();
   applyLayout();
+  
+  // Initialize voice recognition if the function exists
+  if (typeof initVoiceRecognition === 'function') {
+    initVoiceRecognition();
+  }
 }
 
 // Start the application when DOM is fully loaded

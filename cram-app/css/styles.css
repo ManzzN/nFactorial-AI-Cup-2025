@@ -2,6 +2,20 @@
  * Main styles for Cram application
  */
 
+/* Voice input styles */
+.pulse-dot {
+  display: inline-block;
+  animation: pulse-animation 1.5s infinite;
+  color: #f56565;
+  transform-origin: center;
+}
+
+@keyframes pulse-animation {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 /* Page styles */
 .notebook-bg {
   background-size: 100% 24px;

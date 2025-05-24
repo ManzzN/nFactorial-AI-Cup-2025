@@ -119,8 +119,7 @@
         <span style="background: linear-gradient(90deg, #3182ce, #63b3ed, #3182ce); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: gradient 3s ease-in-out infinite;">Cram</span>
       </h1>
       
-      <p class="text-gray-600 dark:text-gray-400">Введите тему и нажмите <kbd class="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">Enter</kbd></p>
-      <div class="relative w-full max-w-md">
+      <p class="text-gray-600 dark:text-gray-400">Введите тему и нажмите <kbd class="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">Enter</kbd></p>      <div class="relative w-full max-w-md">
         <input 
           id="topic-input" 
           type="text" 
@@ -128,6 +127,19 @@
           class="px-4 py-3 w-full border dark:border-gray-700 rounded shadow focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800" 
           aria-label="Введите тему для шпаргалки"
         />
+        <button 
+          id="voice-btn"
+          class="absolute right-12 top-1 bottom-1 px-3 bg-blue-500 hover:bg-blue-600 text-white rounded shadow transition-all duration-300 hover:shadow-lg"
+          aria-label="Голосовой ввод"
+          style="overflow: hidden;"
+        >
+          <span class="relative flex items-center justify-center w-full h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+            </svg>
+            <span class="absolute inset-0 bg-white opacity-0 hover:opacity-20 transform scale-0 hover:scale-100 rounded-full transition-all duration-300"></span>
+          </span>
+        </button>
         <button 
           id="generate-btn" 
           class="absolute right-1 top-1 bottom-1 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded shadow transition-all duration-300 hover:shadow-lg"
@@ -139,6 +151,8 @@
             <span class="absolute inset-0 bg-white opacity-0 hover:opacity-20 transform scale-0 hover:scale-100 rounded-full transition-all duration-300"></span>
           </span>
         </button>
+      </div>      <div id="voice-status" class="text-sm text-blue-500 dark:text-blue-400 hidden">
+        <span class="pulse-dot">●</span> Запись голоса... (нажмите еще раз для остановки)
       </div>
       <div class="text-sm text-gray-500 dark:text-gray-400">
         Например: «Биология», «Линейная алгебра», «История Казахстана»
@@ -247,15 +261,14 @@
     <p>
       
     </p>
-  </footer>
-
-  <!-- JavaScript files -->
+  </footer>  <!-- JavaScript files -->
   <script src="js/config.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/layout.js"></script>
-  <script src="js/ui.js"></script> 
+  <script src="js/ui.js"></script>
   <script src="js/api.js"></script>
   <script src="js/export.js"></script>
+  <script src="js/voice.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
