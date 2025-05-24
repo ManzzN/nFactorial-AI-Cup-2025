@@ -48,6 +48,12 @@ function initApp() {
   initExport();
   applyLayout();
   
+  // Скрываем страницы предпросмотра при инициализации
+  if (page1 && page2) {
+    page1.style.visibility = 'hidden';
+    page2.style.visibility = 'hidden';
+  }
+  
   // Initialize voice recognition if the function exists
   if (typeof initVoiceRecognition === 'function') {
     initVoiceRecognition();

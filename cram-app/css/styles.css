@@ -2,6 +2,57 @@
  * Main styles for Cram application
  */
 
+/* Base typography and theme */
+body {
+  font-family: 'Neucha', cursive;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Neucha', cursive;
+  font-weight: 700;
+}
+
+input, button, select, textarea {
+  font-family: 'Neucha', cursive;
+}
+
+/* Стилизация кнопок под тетрадный стиль */
+.btn-notebook {
+  background: #fff9db;
+  border: 1px solid #e9ecef;
+  box-shadow: 2px 2px 0px #adb5bd;
+  transform: rotate(-1deg);
+  transition: all 0.2s ease;
+}
+
+.btn-notebook:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 3px 3px 0px #adb5bd;
+}
+
+.btn-notebook:active {
+  transform: rotate(0deg) translateY(0);
+  box-shadow: 1px 1px 0px #adb5bd;
+}
+
+/* Notebook background */
+.notebook-background {
+  background-color: #f5f3eb;
+  background-image: 
+    linear-gradient(#d9d4c5 1px, transparent 1px),
+    linear-gradient(90deg, #d9d4c5 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+.dark .notebook-background {
+  background-color: #1a1a1a;
+  background-image: 
+    linear-gradient(#333 1px, transparent 1px),
+    linear-gradient(90deg, #333 1px, transparent 1px);
+}
+
 /* Voice input styles */
 .pulse-dot {
   display: inline-block;
@@ -17,18 +68,42 @@
 }
 
 /* Page styles */
+/* Общий фон для интерфейса - сохраняем стилизацию под тетрадь */
 .notebook-bg {
-  background-size: 100% 24px;
+  background-color: white;
+  position: relative;
+  padding: 0.5em;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* Чистый фон для шпаргалки - для печати */
+#preview, #wrapperPreview {
+  background-color: white;
+  background-image: none; /* Убираем фоновые линии */
+}
+
+/* Для темного режима */
+.dark .notebook-bg {
+  background-color: #111;
 }
 
 .page { 
   background: white; 
-  box-shadow: 0 0 12px rgba(0,0,0,.15);
+  box-shadow: 0 0 15px rgba(0,0,0,.2);
   position: relative;
+  border: 1px solid #ddd; /* Тонкая рамка для обозначения границ страницы */
+  transition: visibility 0.3s ease;
 }
 
 .page + .page { 
   page-break-before: always; 
+}
+
+/* Стили для состояния загрузки */
+.page[style*="visibility: hidden"] {
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /* Scissors line */
@@ -75,40 +150,83 @@
   box-shadow: 0 0 12px rgba(0,0,0,.35);
 }
 
-/* Preview content styles - all text black in all modes */
+/* Preview content styles - монохромные для печати */
 .preview-content {
   color: #000000;
+  font-family: 'PT Serif', serif; /* Более читабельный шрифт с засечками */
+  line-height: 1.5;
+  background-color: white; /* Всегда белый фон */
+  background-image: none; /* Убираем любые фоновые изображения */
 }
 
-/* Enhanced preview styling */
+/* Enhanced preview styling - монохромные заголовки */
 .preview-content h2, .preview-content h3 {
   color: #000000;
   margin-top: 0.75em;
   margin-bottom: 0.5em;
-  font-weight: 600;
+  font-weight: 700; /* Жирный для лучшей печати */
+  font-family: 'PT Serif', serif;
 }
 
 .preview-content h2 {
   font-size: 1.25em;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #000000;
   padding-bottom: 0.25em;
+  text-decoration: none; /* Убираем подчёркивание */
+  color: #000000; /* Всё чёрным */
 }
 
 .preview-content h3 {
   font-size: 1.1em;
+  color: #000000; /* Всё чёрным */
 }
 
 .preview-content ul, .preview-content ol {
   padding-left: 1.5em;
   margin-bottom: 0.75em;
+  list-style-type: disc; /* Стандартные маркеры для печати */
 }
 
 .preview-content li {
   margin-bottom: 0.25em;
+  color: #000000; /* Чёрный текст */
 }
 
 .preview-content p {
   margin-bottom: 0.75em;
+  color: #000000; /* Чёрный текст */
+}
+
+/* Дополнительные стили для печати */
+.preview-content strong, 
+.preview-content b {
+  font-weight: 700; /* Более жирный для лучшей печати */
+}
+
+.preview-content em, 
+.preview-content i {
+  font-style: italic;
+}
+
+.preview-content a {
+  color: #000000; /* Чёрные ссылки */
+  text-decoration: none; /* Без подчёркивания */
+}
+
+/* Стили для математических формул */
+.preview-content .MathJax {
+  color: #000000 !important; /* Делаем формулы чётко чёрными */
+  font-size: 115% !important;
+}
+
+/* Убираем цветовые украшения MathJax для более чистой печати */
+.preview-content .MathJax_SVG * {
+  color: #000000 !important;
+}
+
+/* Максимальный контраст для формул */
+mjx-container {
+  color: black !important;
 }
 
 /* GitHub Corner */
@@ -125,8 +243,72 @@
   }
 }
 
-/* Print styles */
+/* Print styles - детальные настройки для печати шпаргалки */
 @media print {
-  body { background: white !important; }
-  .page { box-shadow: none !important; }
+  body { 
+    background: white !important; 
+    color: black !important;
+  }
+  
+  .page { 
+    box-shadow: none !important; 
+    border: none !important; /* Убираем рамку при печати */
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Убираем все цвета и фоны при печати */
+  .preview-content, 
+  .preview-content h2, 
+  .preview-content h3, 
+  .preview-content p, 
+  .preview-content li,
+  .preview-content a,
+  .preview-content span {
+    color: black !important;
+    background: none !important;
+    text-decoration: none !important;
+    border-color: black !important;
+    font-family: 'Times New Roman', serif !important;
+  }
+  
+  /* Настройка контраста для формул */
+  .MathJax {
+    color: black !important;
+  }
+  
+  /* Скрытие ножниц при печати */
+  .scissors-line, .scissors-icon {
+    display: none !important;
+  }
+}
+
+/* Стили для имитации тетрадных страниц */
+.notebook-style {
+  background-color: #fff;
+  background-image: 
+    linear-gradient(90deg, transparent 0%, transparent 49px, #ccc 49px, #ccc 51px, transparent 51px, transparent 100%),
+    linear-gradient(#eee 0.1em, transparent 0.1em);
+  background-size: 100% 1.2em;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
+  border-left: 1px solid #d88;
+  border-top: 1px solid #e99;
+}
+
+.dark .notebook-style {
+  background-image: 
+    linear-gradient(90deg, transparent 0%, transparent 49px, #444 49px, #444 51px, transparent 51px, transparent 100%),
+    linear-gradient(#333 0.1em, transparent 0.1em);
+  background-color: #222;
+  border-left: 1px solid #633;
+  border-top: 1px solid #744;
+}
+
+/* Стили для кода и математических формул */
+.preview-content pre, .preview-content code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: #f8f8f8;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.95em;
 }

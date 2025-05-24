@@ -34,7 +34,7 @@ logs/
 *.log
 
 # API keys and secrets - consider using environment variables instead
-config.js
+#config.js
 
 # Temporary files
 temp/

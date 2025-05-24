@@ -46,12 +46,16 @@ async function startGeneration(forceTopic) {
       });
     }, 50);
   }, 700);
-
   // Update UI
   topicDisplay.value = topic;
   loading.classList.remove('hidden');
+  
+  // Полностью скрываем страницы с preview до завершения генерации
   preview.classList.add('hidden');
   wrapperPreview.classList.add('hidden');
+  page1.style.visibility = 'hidden';
+  page2.style.visibility = 'hidden';
+  
   applyLayout();
   exportBtn.disabled = true;
 
@@ -60,8 +64,15 @@ async function startGeneration(forceTopic) {
     
     exportBtn.disabled = false;
     loading.classList.add('hidden');
+    
+    // Показываем страницы после загрузки
+    page1.style.visibility = 'visible';
+    page2.style.visibility = 'visible';
   } catch (err) {
     showError(`Ошибка API: ${err.message}`);
+    // Показываем страницы даже в случае ошибки
+    page1.style.visibility = 'visible';
+    page2.style.visibility = 'visible';
   }
 }
 

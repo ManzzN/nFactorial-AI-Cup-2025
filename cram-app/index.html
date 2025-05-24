@@ -42,16 +42,20 @@
   <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.4.0/dist/jspdf.umd.min.js"></script>
+  <!-- Custom Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Nunito:wght@400;600;700&family=Roboto+Mono:wght@400;500&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animations.css">
 </head>
 
-<body class="min-h-screen flex flex-col items-center justify-between bg-yellow-50 dark:bg-gray-900 dark:text-white transition-colors duration-300 px-4 py-8">
+<body class="min-h-screen flex flex-col items-center justify-between notebook-background transition-colors duration-300 px-4 py-8">
   <!-- Header with GitHub corner -->
   <div class="absolute top-0 right-0 z-10">
-    <a href="https://github.com/yourusername/Cram" class="github-corner" aria-label="View source on GitHub">
+    <a href="https://github.com/ManzzN/nFactorial-AI-Cup-2025" class="github-corner" aria-label="View source on GitHub">
       <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
         <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
@@ -73,7 +77,7 @@
   <!-- Main Content -->
   <main class="w-full flex flex-col items-center">
     <!-- === INTROSCREEN === -->
-    <section id="project-info" class="w-full max-w-3xl mb-12 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+    <section id="project-info" class="w-full max-w-3xl mb-12 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-2 border-dashed border-gray-300 dark:border-gray-700">
       <div class="flex items-center gap-3 mb-4">
         <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
           <path d="M5 3a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5m0 2h14v14H5V5m2 2v2h10V7H7m0 4v2h10v-2H7m0 4v2h7v-2H7z"></path>
@@ -104,8 +108,7 @@
           конфигурации или использовать переменные окружения.
         </p>
       </div>
-      
-      <button id="start-btn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-all duration-300 hover:shadow-lg hover:transform hover:scale-[1.02] relative overflow-hidden group">
+        <button id="start-btn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-all duration-300 hover:shadow-lg relative overflow-hidden group btn-notebook">
         <span class="relative z-10">Начать работу</span>
         <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         <span class="absolute top-0 left-0 w-full h-full overflow-hidden">
@@ -160,7 +163,7 @@
     </section>
 
     <!-- === APP === -->
-    <section id="app" class="w-full max-w-5xl bg-white dark:bg-gray-800 shadow-xl border-4 border-dashed dark:border-gray-700 p-6 space-y-6 opacity-0 translate-y-8 hidden transition-all duration-700 rounded-lg" style="transform: translateY(30px) scale(0.98);">
+    <section id="app" class="w-full max-w-5xl bg-white dark:bg-gray-800 shadow-xl border-4 border-dashed dark:border-gray-700 p-6 space-y-6 opacity-0 translate-y-8 hidden transition-all duration-700 rounded-lg notebook-style" style="transform: translateY(30px) scale(0.98);">
       <!-- Toolbar -->
       <div class="flex flex-wrap items-end gap-4">
         <div class="flex-1 min-w-[12rem]">
