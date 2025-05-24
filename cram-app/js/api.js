@@ -9,8 +9,8 @@
  * @param {string} [forceTopic] - Optional topic to use instead of input value
  */
 async function startGeneration(forceTopic) {
-  // Get topic
-  const topic = forceTopic || topicInput.value.trim();
+  // Get topic and ensure it's a string (not an event object)
+  const topic = typeof forceTopic === 'string' ? forceTopic : topicInput.value.trim();
   if (!topic) return alert('Введите тему!');
   
   currentTopic = topic;

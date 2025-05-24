@@ -30,12 +30,18 @@ function initUI() {
       }, 50);
     }, 600);
   });
-  
-  topicInput.addEventListener('keydown', e => { 
-    if (e.key === 'Enter') startGeneration();
+    topicInput.addEventListener('keydown', e => { 
+    if (e.key === 'Enter') {
+      const topic = topicInput.value.trim();
+      if (topic) startGeneration();
+    }
   });
   
-  generateBtn.addEventListener('click', startGeneration);
+  generateBtn.addEventListener('click', e => {
+    const topic = topicInput.value.trim();
+    if (topic) startGeneration();
+    else alert('Введите тему!');
+  });
   
   document.querySelectorAll('input[name="ctype"]').forEach(r => 
     r.addEventListener('change', () => { 
@@ -96,14 +102,33 @@ function initUI() {
       createVerticalScissorsLines();
     }
   });
-  
-  regenerateBtn.addEventListener('click', () => startGeneration(currentTopic));
+    regenerateBtn.addEventListener('click', () => startGeneration(currentTopic));
   
   backBtn.addEventListener('click', () => {
-    app.classList.add('opacity-0', 'translate-y-8');
+    // Анимация скрытия приложения
+    app.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    app.style.opacity = '0';
+    app.style.transform = 'translateY(30px) scale(0.98)';
+    
     setTimeout(() => {
       app.classList.add('hidden');
+      
+      // Подготавливаем элемент intro с правильными начальными стилями
+      intro.style.opacity = '0';
+      intro.style.transform = 'translateY(-20px)';
+      intro.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
       intro.classList.remove('hidden');
+      
+      // Сбрасываем значение поля ввода для нового ввода
+      topicInput.value = '';
+      
+      // Применяем анимацию появления с небольшой задержкой
+      setTimeout(() => {
+        intro.style.opacity = '1';
+        intro.style.transform = 'translateY(0)';
+        // Устанавливаем фокус на поле ввода для удобства
+        topicInput.focus();
+      }, 50);
     }, 700);
   });
   
