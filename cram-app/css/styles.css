@@ -1,0 +1,118 @@
+/* 
+ * Main styles for Cram application
+ */
+
+/* Page styles */
+.notebook-bg {
+  background-size: 100% 24px;
+}
+
+.page { 
+  background: white; 
+  box-shadow: 0 0 12px rgba(0,0,0,.15);
+  position: relative;
+}
+
+.page + .page { 
+  page-break-before: always; 
+}
+
+/* Scissors line */
+.scissors-line {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+/* Horizontal scissors line (for bottle) */
+.scissors-line-horizontal {
+  left: 0;
+  right: 0;
+  border-top: 2px dashed #888;
+}
+
+/* Vertical scissors line (for vertical cheat) */
+.scissors-line-vertical {
+  top: 0;
+  bottom: 0;
+  border-left: 2px dashed #888;
+}
+
+.scissors-icon {
+  background: white;
+  padding: 0 10px;
+  color: #555;
+}
+
+/* Position for scissors icon */
+.scissors-line-horizontal .scissors-icon {
+  margin-top: -12px;
+}
+
+.scissors-line-vertical .scissors-icon {
+  margin-left: -12px;
+  padding: 10px 0;
+  transform: rotate(90deg);
+}
+
+/* Dark mode styles - page stays white */
+.dark .page {
+  background: white; 
+  box-shadow: 0 0 12px rgba(0,0,0,.35);
+}
+
+/* Preview content styles - all text black in all modes */
+.preview-content {
+  color: #000000;
+}
+
+/* Enhanced preview styling */
+.preview-content h2, .preview-content h3 {
+  color: #000000;
+  margin-top: 0.75em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+.preview-content h2 {
+  font-size: 1.25em;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.25em;
+}
+
+.preview-content h3 {
+  font-size: 1.1em;
+}
+
+.preview-content ul, .preview-content ol {
+  padding-left: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.preview-content li {
+  margin-bottom: 0.25em;
+}
+
+.preview-content p {
+  margin-bottom: 0.75em;
+}
+
+/* GitHub Corner */
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}
+
+/* Print styles */
+@media print {
+  body { background: white !important; }
+  .page { box-shadow: none !important; }
+}

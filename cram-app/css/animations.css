@@ -1,0 +1,90 @@
+/* 
+ * Animations for Cram application 
+ */
+
+/* Loading animation */
+.loading::after {
+  content: '...';
+  display: inline-block;
+  animation: ellipsis 1.5s infinite;
+}
+
+@keyframes ellipsis {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+}
+
+/* Common animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Scissors animation */
+@keyframes cut {
+  0% { transform: scaleX(1); }
+  45% { transform: scaleX(0.9); }
+  50% { transform: scaleX(0.8); }
+  55% { transform: scaleX(0.9); }
+  100% { transform: scaleX(1); }
+}
+
+.animate-cut {
+  animation: cut 1.5s ease-in-out infinite;
+}
+
+/* Special animations */
+@keyframes shine {
+  from {
+    left: -120%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
+
+@keyframes octocat-wave {
+  0%, 100% { transform: rotate(0); }
+  20%, 60% { transform: rotate(-25deg); }
+  40%, 80% { transform: rotate(10deg); }
+}
