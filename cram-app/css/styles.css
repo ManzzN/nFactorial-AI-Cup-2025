@@ -322,32 +322,41 @@ mjx-container {
 .tooltip-image {
   display: none;
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%) translateY(-10px);
   z-index: 1000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  max-width: 300px;
+  max-width: 220px;
   transition: opacity 0.3s, transform 0.3s;
   opacity: 0;
   pointer-events: none;
+  padding: 4px;
+  background-color: white;
+  border: 2px solid #e2e8f0;
 }
 
 .tooltip-container:hover .tooltip-image {
   display: block;
   opacity: 1;
-  transform: translateX(-50%) translateY(5px);
+  transform: translateX(-50%) translateY(-5px);
+}
+
+/* Dark mode styles for tooltip */
+.dark .tooltip-image {
+  background-color: #1a202c;
+  border-color: #4a5568;
 }
 
 /* Mobile responsiveness for tooltip */
 @media (max-width: 768px) {
   .tooltip-image {
     left: 0;
-    transform: translateX(0) translateY(10px);
+    transform: translateX(0) translateY(-10px);
   }
   
   .tooltip-container:hover .tooltip-image {
-    transform: translateX(0) translateY(5px);
+    transform: translateX(0) translateY(-5px);
   }
 }
