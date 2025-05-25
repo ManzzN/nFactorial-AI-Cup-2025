@@ -312,3 +312,42 @@ mjx-container {
   border-radius: 3px;
   font-size: 0.95em;
 }
+
+/* Bottle mode instruction tooltip */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-image {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  max-width: 300px;
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tooltip-container:hover .tooltip-image {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%) translateY(5px);
+}
+
+/* Mobile responsiveness for tooltip */
+@media (max-width: 768px) {
+  .tooltip-image {
+    left: 0;
+    transform: translateX(0) translateY(10px);
+  }
+  
+  .tooltip-container:hover .tooltip-image {
+    transform: translateX(0) translateY(5px);
+  }
+}
