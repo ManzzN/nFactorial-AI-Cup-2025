@@ -66,7 +66,10 @@ async function exportToPDF() {
       const scissorsLines = element.querySelectorAll('.scissors-line');
       scissorsLines.forEach(elem => {
         elem.style.zIndex = '1000'; // Устанавливаем высокий z-index
-      });
+      });      // Скрыть вспомогательные MathML элементы перед рендерингом canvas
+      const mathMLElements = element.querySelectorAll('mjx-assistive-mml');
+      mathMLElements.forEach(el => 
+        el.style.setProperty('display', 'none', 'important'));
 
       // Convert to canvas with enhanced settings
       const canvas = await html2canvas(element, {
@@ -86,9 +89,17 @@ async function exportToPDF() {
               line.style.borderLeft = '2px dashed #888';
             }
           });
+          
+          // Также скрываем MathML элементы в клонированном документе
+          const clonedMathMLElements = clonedDoc.querySelectorAll('mjx-assistive-mml');
+          clonedMathMLElements.forEach(el => 
+            el.style.setProperty('display', 'none', 'important'));
         }
       });
-      
+        // Восстановить отображение вспомогательных MathML элементов
+      mathMLElements.forEach(el => 
+        el.style.removeProperty('display'));
+        
       // Add canvas to PDF
       const imgData = canvas.toDataURL('image/png');
       
@@ -106,6 +117,13 @@ async function exportToPDF() {
         'FAST'
       );
     }
+      // Дополнительная проверка, чтобы убедиться, что все MathML элементы видимы
+    const finalCheck = container.querySelectorAll('mjx-assistive-mml');
+    finalCheck.forEach(el => {
+      if (el.style.display === 'none') {
+        el.style.removeProperty('display');
+      }
+    });
     
     // Save PDF
     pdf.save(`cheatsheet-${topicDisplay.value}.pdf`);
